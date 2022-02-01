@@ -34,21 +34,18 @@ class AlphabetCipher(object):
         self.__repeatedKeyword = ""
         self.__encodedMessage = ""
         
-        
-    def writeMessage(self, input):
-        self.__message = input
-        if((len(self.__message) > 0) and (len(self.__keyword)>0)):
-            self.__generateEncodedMessage()
-            
-    
-    def writeKeyword(self, input):
-        self.__keyword = input
-        if((len(self.__message) > 0) and (len(self.__keyword)>0)):
-            self.__generateEncodedMessage()
-            
-
     def readEncodedMessage(self):
         return self.__encodedMessage
+
+    def writeMessage(self, message):
+        self.__message = message
+        if((len(self.__message) > 0) and (len(self.__keyword) > 0)):
+            self.__generateEncodedMessage()
+            
+    def writeKeyword(self, keyword):
+        self.__keyword = keyword
+        if((len(self.__message) > 0) and (len(self.__keyword) > 0)):
+            self.__generateEncodedMessage()
     
     def __generateEncodedMessage(self):
         self.__generateRepeatedKeyword()
@@ -60,15 +57,8 @@ class AlphabetCipher(object):
             self.__repeatedKeyword += self.__keyword[i%len(self.__keyword)]
 
     def __generateCipher(self):
+        self.__encodedMessage = ""
         for i in range(len(self.__message)):
             column = alphabet[self.__repeatedKeyword[i]]
             row = alphabet[self.__message[i]]
             self.__encodedMessage = self.__encodedMessage + list(alphabet.keys())[list(alphabet.values()).index((column + row)%len(alphabet))]
-        
-
-    
-
-
-    
-
-        
