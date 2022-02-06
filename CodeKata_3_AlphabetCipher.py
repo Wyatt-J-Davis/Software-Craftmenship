@@ -1,17 +1,41 @@
 from utils.alphabetcipher import AlphabetCipher
 
 # Test code
-Cipher = AlphabetCipher()
+CipherA = AlphabetCipher()
 
 # Message to send
-Cipher.writeMessage("meetmebythetree")
+CipherA.writeMessage("meetmebythetree")
 
 # Keyword
-Cipher.writeKeyword("scones")
+CipherA.writeKeyword("scones")
 
 # Print out encoded message
-message = Cipher.readEncodedMessage()
+message = CipherA.readEncodedMessage()
 print(message) # We expect "egsgqwtahuiljgs"
+
+#Create second cipher object to decode message sent by first
+CipherB = AlphabetCipher()
+
+# Write keyword
+CipherB.writeKeyword("scones")
+
+# Second CipherB recieves message encoded by CipherA
+CipherB.recieveMessage(message)
+
+decodedMessage = CipherB.readDecodedMessage()
+print(decodedMessage)
+
+CipherB.writeMessage("seeyoubythetree")
+
+message = CipherB.readEncodedMessage()
+
+print(message)
+
+CipherA.recieveMessage(message)
+
+recievedMessage = CipherA.readDecodedMessage()
+
+print(recievedMessage)
 
 # Define unit tests
 def testKeyA():

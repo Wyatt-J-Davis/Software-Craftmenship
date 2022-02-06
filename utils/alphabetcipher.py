@@ -29,36 +29,45 @@ alphabet = {
 
 class AlphabetCipher(object):
     def __init__(self):
-        self.__message = ""
+        self.__messageToSend = ""
+        self.__messageToRecieve = ""
         self.__keyword = ""
-        self.__repeatedKeyword = ""
         self.__encodedMessage = ""
+        self.__decodedMessage = ""
         
     def readEncodedMessage(self):
         return self.__encodedMessage
+    
+    def readDecodedMessage(self):
+        return self.__decodedMessage
 
     def writeMessage(self, message):
-        self.__message = message
-        if((len(self.__message) > 0) and (len(self.__keyword) > 0)):
-            self.__generateEncodedMessage()
+        self.__messageToSend = message
+        if(len(self.__messageToSend) > 0 and len(self.__keyword) > 0):
+            self.__encode()
+    
+    def recieveMessage(self, message):
+        self.__messageToRecieve = message
+        if(len(self.__messageToRecieve) > 0 and len(self.__keyword) > 0):
+            self.__decode()
             
     def writeKeyword(self, keyword):
         self.__keyword = keyword
-        if((len(self.__message) > 0) and (len(self.__keyword) > 0)):
-            self.__generateEncodedMessage()
+        if(len(self.__messageToSend) > 0 and len(self.__keyword) > 0):
+            self.__encode()
+        if(len(self.__messageToRecieve) > 0 and len(self.__keyword) > 0):
+            self.__decode()
     
-    def __generateEncodedMessage(self):
-        self.__generateRepeatedKeyword()
-        self.__generateCipher()
-    
-    def __generateRepeatedKeyword(self):
-        self.__repeatedKeyword = self.__keyword
-        for i in range(len(self.__message) - len(self.__keyword)):
-            self.__repeatedKeyword += self.__keyword[i%len(self.__keyword)]
-
-    def __generateCipher(self):
+    def __encode(self):
         self.__encodedMessage = ""
-        for i in range(len(self.__message)):
-            column = alphabet[self.__repeatedKeyword[i]]
-            row = alphabet[self.__message[i]]
-            self.__encodedMessage = self.__encodedMessage + list(alphabet.keys())[list(alphabet.values()).index((column + row)%len(alphabet))]
+        for i in range(len(self.__messageToSend)):
+            keywordIndex = alphabet[self.__keyword[i%len(self.__keyword)]] 
+            messageIndex = alphabet[self.__messageToSend[i]]
+            self.__encodedMessage = self.__encodedMessage + list(alphabet.keys())[list(alphabet.values()).index((keywordIndex + messageIndex)%len(alphabet))]
+
+    def __decode(self):
+        self.__encodedMessage = ""
+        for i in range(len(self.__messageToRecieve)):
+            keywordIndex = alphabet[self.__keyword[i%len(self.__keyword)]] 
+            recieveMessageIndex = alphabet[self.__messageToRecieve[i]]
+            self.__decodedMessage = self.__decodedMessage + list(alphabet.keys())[list(alphabet.values()).index((recieveMessageIndex - keywordIndex)%len(alphabet))]
