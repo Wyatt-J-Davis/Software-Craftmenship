@@ -66,7 +66,7 @@ class AlphabetCipher(object):
             self.__encodedMessage = self.__encodedMessage + list(alphabet.keys())[list(alphabet.values()).index((keywordIndex + messageIndex)%len(alphabet))]
 
     def __decode(self):
-        self.__encodedMessage = ""
+        self.__decodedMessage = ""
         for i in range(len(self.__messageToRecieve)):
             keywordIndex = alphabet[self.__keyword[i%len(self.__keyword)]] 
             recieveMessageIndex = alphabet[self.__messageToRecieve[i]]
