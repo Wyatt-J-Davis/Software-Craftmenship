@@ -15,10 +15,7 @@ class ArithmaticsParser(object):
             return False
 
     def __firstAndLastParenthesis(self, arithmetic):
-        if((arithmetic[0] == '(') and (arithmetic[-1] == ')')):
-            return True
-        else:
-            return False
+        return ((arithmetic[0] == '(') and (arithmetic[-1] == ')'))
     
     def __checkCharacters(self, arithmetic):
         allowed = (string.digits + ')' + '(' + '+' + '-' + '/' + '*' + '**' + ' ')
