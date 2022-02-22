@@ -1,70 +1,45 @@
+import string
+
 class ArithmaticsParser(object):
     
-    def __init__(self):
-        self.__arithmetic = ""
-        self.__validArithmetic = True
-        self.__result = ""
+    def evaluate(self, arithmetic):
+        if(self.__validateArithmetic(arithmetic)):
+            return self.__evaluateResult(arithmetic)
+        else: 
+            return "Invalid record error"
 
-    def writeArithmatic(self, arithmetic):
-        self.__validArithmetic = self.__validateArithmatic(arithmetic)
-        if(self.__validArithmetic):
-            self.__arithmetic = arithmetic
+    def __validateArithmetic(self, arithmetic):
+        if(self.__firstAndLastParenthesis(arithmetic)):
+            return self.__checkCharacters(arithmetic)
         else:
-            print("Invalid input. Try again.")
-
-    def getResult(self):
-        if(self.__validArithmetic):
-            self.__evaluateResult()
-            return self.__result
-        else:
-            print("Unable to evaluate result due to invalid input. Input valid arithmatic and try again.")
-
-    def __validateArithmatic(self, arithmetic):
-        valid = self.__firstAndLastParenthesis(arithmetic)
-        if(True == valid):
-            valid = self.__countParenthesis(arithmetic)
-        return valid
+            return False
 
     def __firstAndLastParenthesis(self, arithmetic):
         if((arithmetic[0] == '(') and (arithmetic[-1] == ')')):
             return True
         else:
             return False
-        
-    def __countParenthesis(self, arithmetic):
-        lefthandParenthesis = 0
-        righthandParenthesis = 0
-        valid = True
-        for character in arithmetic: 
-            if (character == '('):
-                lefthandParenthesis += 1
-            elif(character ==  ')'):
-                righthandParenthesis += 1
-            if(righthandParenthesis > lefthandParenthesis):
-                valid = False
-        if(righthandParenthesis != lefthandParenthesis):
-            valid = False
-        
-        return valid
+    
+    def __checkCharacters(self, arithmetic):
+        allowed = (string.digits + ')' + '(' + '+' + '-' + '/' + '*' + '**' + ' ')
+        return all(c in allowed for c in arithmetic) # Iterate through the arithmetc and make sure it is comprised of valid characters   
 
-    def __evaluateResult(self):
-        containsNumbers = self.__getDigitPresent()
+    def __evaluateResult(self, arithmetic):
+        containsNumbers = self.__getDigitPresent(arithmetic)
         if(containsNumbers == False):
-            self.__result = 0
+            return 0
         else:
-            self.__result = eval(self.__arithmetic)
+            try:
+                return eval(arithmetic)
+            except(SyntaxError):
+                return "Arithmetic syntax error"
+            except(ZeroDivisionError):
+                return "Divide by zero error"
 
-    def __getDigitPresent(self):
+    def __getDigitPresent(self, arithmetic):
         containsDigit = False
-        for character in self.__arithmetic:
+        for character in arithmetic:
             if character.isdigit():
                 containsDigit = True
         
         return containsDigit
-
-
-
-
-    #def calculateResult(self):
-
-
