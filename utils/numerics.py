@@ -41,5 +41,4 @@ class ArithmaticsParser(object):
         for character in arithmetic:
             if character.isdigit():
                 containsDigit = True
-        
         return containsDigit
