@@ -8,10 +8,7 @@ class TinyMazeSolver(object):
         mirrorMaze = []
         xPath = []
         yPath = []
-
-        # Steps to solving
         unsolved = True
-        #Start path at zero 
         xPath.append(0)
         yPath.append(0)
 
@@ -19,44 +16,8 @@ class TinyMazeSolver(object):
         mirrorMaze = maze
 
         while(unsolved): 
-            potentialX = []
-            potentialY = []
-            # check neighbors for zeros 
-         
-            # Check to make sure path is not currently on an edge
-          
-            rightEdge = False
-            leftEdge = False
-            topEdge = False
-            bottomEdge = False
-            if(0 == xPath[-1]):
-                leftEdge = True
-            elif((len(maze[0][:]) - 1) == xPath[-1]):
-                rightEdge = True
-            if(0 == yPath[-1]):
-                topEdge = True
-            elif((len(maze[:]) - 1) == yPath[-1]):
-                bottomEdge = True
-            
-            # Check availible moves
-            # Left move
-            if((not(leftEdge)) and (1 != mirrorMaze[yPath[-1]][xPath[-1] - 1]) and (not(self.__checkForPathCollision(xPath[-1] - 1, yPath[-1],xPath, yPath)))):
-                potentialX.append(xPath[-1] - 1)
-                potentialY.append(yPath[-1])
-            # Right move
-            if((not(rightEdge)) and (1 != mirrorMaze[yPath[-1]][xPath[-1] + 1]) and (not(self.__checkForPathCollision((xPath[-1] + 1), yPath[-1],xPath, yPath)))):
-                potentialX.append(xPath[-1] + 1)
-                potentialY.append(yPath[-1])
-            # Up move
-            if((not(topEdge)) and (1 != mirrorMaze[yPath[-1] - 1][xPath[-1]]) and (not(self.__checkForPathCollision(xPath[-1], (yPath[-1] - 1),xPath, yPath)))):
-                potentialX.append(xPath[-1])
-                potentialY.append(yPath[-1] - 1)
-            # Down move
-            if((not(bottomEdge)) and (1 != mirrorMaze[yPath[-1] + 1][xPath[-1]]) and (not(self.__checkForPathCollision(xPath[-1], (yPath[-1] + 1) ,xPath, yPath)))):
-                potentialX.append(xPath[-1])
-                potentialY.append(yPath[-1] + 1)
-
-            # to do: choose move at random, if no potenial moves exist then pop the most recent addition to the path and mark it as a wall in the mirror maze.
+            rightEdge, leftEdge, topEdge, bottomEdge = self.__checkForEdges(maze, xPath, yPath)
+            potentialX, potentialY = self.__checkAvailibleMoves(rightEdge, leftEdge, topEdge, bottomEdge, mirrorMaze, xPath, yPath)
             
             # Choose move
             if(len(potentialX) > 0):
@@ -86,6 +47,46 @@ class TinyMazeSolver(object):
         
 
          # choose one of the zeros and go there 
+
+    def __checkForEdges(self, maze, xPath, yPath):
+        rightEdge = False
+        leftEdge = False
+        topEdge = False
+        bottomEdge = False
+        if(0 == xPath[-1]):
+            leftEdge = True
+        elif((len(maze[0][:]) - 1) == xPath[-1]):
+            rightEdge = True
+        if(0 == yPath[-1]):
+            topEdge = True
+        elif((len(maze[:]) - 1) == yPath[-1]):
+            bottomEdge = True
+
+        return rightEdge, leftEdge, topEdge, bottomEdge
+
+    
+    def __checkAvailibleMoves(self, rightEdge, leftEdge, topEdge, bottomEdge, mirrorMaze, xPath, yPath):
+        potentialX = []
+        potentialY = []
+        
+        if((not(leftEdge)) and (1 != mirrorMaze[yPath[-1]][xPath[-1] - 1]) and (not(self.__checkForPathCollision(xPath[-1] - 1, yPath[-1],xPath, yPath)))):
+            potentialX.append(xPath[-1] - 1)
+            potentialY.append(yPath[-1])
+            
+        if((not(rightEdge)) and (1 != mirrorMaze[yPath[-1]][xPath[-1] + 1]) and (not(self.__checkForPathCollision((xPath[-1] + 1), yPath[-1],xPath, yPath)))):
+            potentialX.append(xPath[-1] + 1)
+            potentialY.append(yPath[-1])
+            
+        if((not(topEdge)) and (1 != mirrorMaze[yPath[-1] - 1][xPath[-1]]) and (not(self.__checkForPathCollision(xPath[-1], (yPath[-1] - 1),xPath, yPath)))):
+            potentialX.append(xPath[-1])
+            potentialY.append(yPath[-1] - 1)
+        
+        if((not(bottomEdge)) and (1 != mirrorMaze[yPath[-1] + 1][xPath[-1]]) and (not(self.__checkForPathCollision(xPath[-1], (yPath[-1] + 1) ,xPath, yPath)))):
+            potentialX.append(xPath[-1])
+            potentialY.append(yPath[-1] + 1)
+        
+        return potentialX, potentialY
+
 
     def __checkForPathCollision(self, xCoordinate, yCoordinate, xPath, yPath):
         collision = False

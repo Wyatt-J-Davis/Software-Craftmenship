@@ -1,6 +1,5 @@
 from utils.tinymaze import TinyMazeSolver
 
-# Define unit tests
 def Test3by3():
     TestMazeSolver = TinyMazeSolver()
 
