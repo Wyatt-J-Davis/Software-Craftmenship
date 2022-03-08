@@ -27,6 +27,5 @@ def Test4by4():
                         [ 1, 'x', 'x', 'x']]
 
 
-
 Test3by3()
 Test4by4()
