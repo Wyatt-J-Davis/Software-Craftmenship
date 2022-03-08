@@ -33,7 +33,7 @@ class MarsRover(object):
                     print(f"{subcommand} is not a valid command. Use M, L, or R to command the rover.")
     
     def getPositionandDirection(self):
-        x = xGrid[self.__xDisplacement % len(xGrid)] # Use mod operation to enforce wrap-around for positions and direcrtion
+        x = xGrid[self.__xDisplacement % len(xGrid)] # Use mod operation to enforce wrap-around for positions and direction
         y = yGrid[self.__yDisplacement % len(yGrid)]
         direction = compass[self.__orientation % len(compass)]
         
