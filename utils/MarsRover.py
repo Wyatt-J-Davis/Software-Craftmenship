@@ -9,6 +9,11 @@ class MarsRover(object):
         self.__xDisplacement = 0
         self.__yDisplacement = 0
     
+    def getPositionandDirection(self):
+        x = xGrid[self.__xDisplacement % len(xGrid)] # Use mod operation to enforce wrap-around for positions and direction
+        y = yGrid[self.__yDisplacement % len(yGrid)]
+        direction = compass[self.__orientation % len(compass)]
+    
     def Command(self, command):
         for subcommand in command:
             match subcommand:
@@ -31,11 +36,6 @@ class MarsRover(object):
                 self.__yDisplacement -= 1
             case 'W':
                 self.__xDisplacement -= 1
-    
-    def getPositionandDirection(self):
-        x = xGrid[self.__xDisplacement % len(xGrid)] # Use mod operation to enforce wrap-around for positions and direction
-        y = yGrid[self.__yDisplacement % len(yGrid)]
-        direction = compass[self.__orientation % len(compass)]
         
         return f"{x}:{y}:{direction}"
     
