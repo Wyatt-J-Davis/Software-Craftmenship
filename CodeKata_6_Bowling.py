@@ -1,20 +1,20 @@
-from utils.bowling import Bowler
+from utils.bowling import BowlingScorer
 
 def TestStrikes():
-    TestBowler = Bowler()
-    result = TestBowler.ScoreRolls("X X X X X X X X X X X X")
+    TestBowlingScorer = BowlingScorer()
+    result = TestBowlingScorer.ScoreRolls("X X X X X X X X X X X X")
     print(result)
     assert result == 300
 
 def TestNineandMiss():
-    TestBowler = Bowler()
-    result = TestBowler.ScoreRolls("9- 9- 9- 9- 9- 9- 9- 9- 9- 9-")
+    TestBowlingScorer = BowlingScorer()
+    result = TestBowlingScorer.ScoreRolls("9- 9- 9- 9- 9- 9- 9- 9- 9- 9-")
     print(result)
     assert result == 90
 
 def TestFiveandSpare():
-    TestBowler = Bowler()
-    result = TestBowler.ScoreRolls("5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/5")
+    TestBowlingScorer = BowlingScorer()
+    result = TestBowlingScorer.ScoreRolls("5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/5")
     print(result)
     assert result == 150
 

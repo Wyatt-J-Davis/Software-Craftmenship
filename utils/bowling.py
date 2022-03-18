@@ -26,15 +26,20 @@ class Bowler:
     def __calculateStrikeScore(self, index):
         notLastSets = index <= (len(self.__throws) - 3)
         if(notLastSets and (self.__throws[index + 2] != '/') ):
-            self.__score += 10 + self.__rollValue(self.__throws[index + 1]) +  self.__rollValue(self.__throws[index + 2])
+            self.__score += 10
+            self.__score += self.__rollValue(self.__throws[index + 1])
+            self.__score += self.__rollValue(self.__throws[index + 2])
         elif(notLastSets):
             self.__score += 20
 
     def __calculateSpareScore(self, index):
         if(index < len(self.__throws) - 2):
-            self.__score += 10 - int(self.__throws[index - 1]) + self.__rollValue(self.__throws[index + 1])
+            self.__score += 10 
+            self.__score -= int(self.__throws[index - 1])
+            self.__score += self.__rollValue(self.__throws[index + 1])
         else:
-            self.__score += 10 - int(self.__throws[index - 1])
+            self.__score += 10
+            self.__score -= int(self.__throws[index - 1])
         
     def __rollValue(self, roll):
         match roll:
