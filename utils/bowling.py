@@ -1,6 +1,6 @@
-class Bowler:
+class BowlingScorer:
     def __init__(self):
-        self.__throws = ""
+        self.__rolls = ""
         self.__score = 0
         
     def ScoreRolls(self, scoreSheet):
@@ -8,11 +8,11 @@ class Bowler:
         return self.__calculateSetScores()
     
     def __convertScoreSheet(self, scoreSheet):
-        self.__throws = scoreSheet.replace(" ","")
+        self.__rolls = scoreSheet.replace(" ","")
 
     def __calculateSetScores(self):
-        for index,throw in enumerate(self.__throws):
-            match throw:
+        for index,roll in enumerate(self.__rolls):
+            match roll:
                case 'X':
                    self.__calculateStrikeScore(index)
                case '/':
@@ -20,26 +20,26 @@ class Bowler:
                case '-':
                    self.__score += 0
                case _:
-                   self.__score += int(throw)
+                   self.__score += int(roll)
         return self.__score
     
     def __calculateStrikeScore(self, index):
-        notLastSets = index <= (len(self.__throws) - 3)
-        if(notLastSets and (self.__throws[index + 2] != '/') ):
+        notLastSets = index <= (len(self.__rolls) - 3)
+        if(notLastSets and (self.__rolls[index + 2] != '/') ):
             self.__score += 10
-            self.__score += self.__rollValue(self.__throws[index + 1])
-            self.__score += self.__rollValue(self.__throws[index + 2])
+            self.__score += self.__rollValue(self.__rolls[index + 1])
+            self.__score += self.__rollValue(self.__rolls[index + 2])
         elif(notLastSets):
             self.__score += 20
 
     def __calculateSpareScore(self, index):
-        if(index < len(self.__throws) - 2):
+        if(index < len(self.__rolls) - 2):
             self.__score += 10 
-            self.__score -= int(self.__throws[index - 1])
-            self.__score += self.__rollValue(self.__throws[index + 1])
+            self.__score -= int(self.__rolls[index - 1])
+            self.__score += self.__rollValue(self.__rolls[index + 1])
         else:
             self.__score += 10
-            self.__score -= int(self.__throws[index - 1])
+            self.__score -= int(self.__rolls[index - 1])
         
     def __rollValue(self, roll):
         match roll:
