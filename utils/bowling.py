@@ -1,45 +1,49 @@
 class BowlingScorer:
     def __init__(self):
         self.__rolls = ""
-        self.__score = 0
         
     def ScoreRolls(self, scoreSheet):
-        self.__convertScoreSheet(scoreSheet) 
-        return self.__calculateSetScores()
-    
-    def __convertScoreSheet(self, scoreSheet):
-        self.__rolls = scoreSheet.replace(" ","")
+        self.__rolls = scoreSheet.replace(" ","") 
+        return self.__calculateScore()
 
-    def __calculateSetScores(self):
+    def __calculateScore(self):
+        score = 0
         for index,roll in enumerate(self.__rolls):
             match roll:
                case 'X':
-                   self.__calculateStrikeScore(index)
+                   score += self.__calculateStrikeScore(index)
                case '/':
-                    self.__calculateSpareScore(index)
+                   score += self.__calculateSpareScore(index)
                case '-':
-                   self.__score += 0
+                   score += 0
                case _:
-                   self.__score += int(roll)
-        return self.__score
+                   score += int(roll)
+        return score
     
     def __calculateStrikeScore(self, index):
-        notLastSets = index <= (len(self.__rolls) - 3)
-        if(notLastSets and (self.__rolls[index + 2] != '/') ):
-            self.__score += 10
-            self.__score += self.__rollValue(self.__rolls[index + 1])
-            self.__score += self.__rollValue(self.__rolls[index + 2])
-        elif(notLastSets):
-            self.__score += 20
+        amountToAdd = 0
+        notLastTwoFrames = index <= (len(self.__rolls) - 3)
+        if(notLastTwoFrames):
+            nextFrameNotSpare = (self.__rolls[index + 2] != '/')
+            if(nextFrameNotSpare):
+                amountToAdd += 10
+                amountToAdd += self.__rollValue(self.__rolls[index + 1])
+                amountToAdd += self.__rollValue(self.__rolls[index + 2])
+            else:
+                amountToAdd += 20
+        return amountToAdd
 
     def __calculateSpareScore(self, index):
-        if(index < len(self.__rolls) - 2):
-            self.__score += 10 
-            self.__score -= int(self.__rolls[index - 1])
-            self.__score += self.__rollValue(self.__rolls[index + 1])
+        amountToAdd = 0
+        notLastFrame = index < len(self.__rolls) - 2
+        if(notLastFrame):
+            amountToAdd += 10 
+            amountToAdd -= int(self.__rolls[index - 1])
+            amountToAdd += self.__rollValue(self.__rolls[index + 1])
         else:
-            self.__score += 10
-            self.__score -= int(self.__rolls[index - 1])
+            amountToAdd += 10
+            amountToAdd -= int(self.__rolls[index - 1])
+        return amountToAdd
         
     def __rollValue(self, roll):
         match roll:
