@@ -2,7 +2,7 @@ class BowlingScorer:
     def __init__(self):
         self.__rolls = ""
         
-    def ScoreRolls(self, scoreSheet):
+    def scoreRolls(self, scoreSheet):
         self.__rolls = scoreSheet.replace(" ","") 
         return self.__calculateScore()
 
