@@ -18,7 +18,7 @@ def testUserNameTooShort():
 def testUserNameTooLong():
     testUserManager = UserManager()
     try:
-        testUserManager.recordNewUser('Wyattttttttttttttttttttttttttttt','Tortise85&70')
+        testUserManager.recordNewUser('Wyattttttttttttttttttttttttttttttt','Tortise85&70')
     except Exception as e:
         assert e == 'UsernameTooLong'
 
@@ -69,7 +69,7 @@ def testPasswordNoUpperAlpha():
     try:
         testUserManager.recordNewUser('Wyatt','tortise85&70')
     except Exception as e:
-        assert e == 'PasswordNoLowerAlpha'
+        assert e == 'PasswordNoUpperAlpha'
 
 def testPasswordNoDigit():
     testUserManager = UserManager()
@@ -91,3 +91,18 @@ def testPasswordContainsUsername():
         testUserManager.recordNewUser('Wyatt','TortiseWyatt8570')
     except Exception as e:
         assert e == 'PasswordContainsUsername'
+
+
+testNewUser()
+testUserNameTooShort()
+testPasswordTooLong()
+testUserNameBadCharacter()
+#testUserNameStartingWithNumber()
+#testPasswordTooShort()
+testPasswordTooLong()
+testPasswordBadCharacters()
+#testPasswordNoLowerAlpha()
+#testPasswordNoUpperAlpha()
+#testPasswordNoDigit()
+#testPasswordNoSpecialChar()
+#testPasswordContainsUsername()
