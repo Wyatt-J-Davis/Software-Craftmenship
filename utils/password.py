@@ -10,12 +10,10 @@ class UserManager(object):
         self._users.append(newUser)
 
     def getUser(self, username):
-        userPresent = False
         for user in self._users:
             if username == user.getUsername():
-                userPresent = True
-        return userPresent
-
+                return True
+        return False
 
 class User(object):
     def __init__(self):
@@ -33,33 +31,31 @@ class User(object):
 
     def _verifyUsername(self,username):
         if(3 > len(username)):
-            raise ValueError('UsernameTooShort')
+            raise Exception('UsernameTooShort')
         if(31 < len(username)):
-            raise ValueError('UsernameTooLong')
+            raise Exception('UsernameTooLong')
         allowed = (string.digits + string.ascii_letters)
         if(not (c in allowed for c in username)):
-            raise ValueError('UsernameBadCharacters')
+            raise Exception('UsernameBadCharacters')
         if(username[0].isdigit()):
-            raise ValueError('UsernameStartsWithANumber')
+            raise Exception('UsernameStartsWithANumber')
 
     def _verifyPassword(self,password):
         if(8 > len(password)):
-            raise ValueError('PasswordTooShort')
+            raise Exception('PasswordTooShort')
         if(255 < len(password)):
-            raise ValueError('PasswordTooLong')        
+            raise Exception('PasswordTooLong')        
         allowed = (string.digits + string.ascii_letters + '!' + '@' + '#' + '$' + '%' + '^' + '&' + '*' + '(' + ')' + '-' + '_' + '=' + '+')
         if(not (c in allowed for c in password)):
-            raise ValueError('PasswordBadCharacters')
+            raise Exception('PasswordBadCharacters')
         if(password.isupper()):
-            raise ValueError('PasswordNoLowerAlpha')
+            raise Exception('PasswordNoLowerAlpha')
         if(password.islower()):
-            raise ValueError('PasswordNoUpperAlpha')
+            raise Exception('PasswordNoUpperAlpha')
         if not any(char.isdigit() for char in password):
-            raise ValueError('PasswordNoDigit')
+            raise Exception('PasswordNoDigit')
         specialCharacters = set('!@#$%^&*()-_=+')
         if not any((c in specialCharacters) for c in password):
-            raise ValueError('PasswordNoSpecialChar')
+            raise Exception('PasswordNoSpecialChar')
         if self._username in password:
-            raise ValueError('PasswordContainsUsername')
-
-        
+            raise Exception('PasswordContainsUsername')
