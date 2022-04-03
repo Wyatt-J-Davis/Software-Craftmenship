@@ -24,12 +24,11 @@ class User(object):
         return self._username
     
     def setUserNameAndPassword(self, username, password):
-        self._verifyUsername(username)
+        self._verifyUsernameAndPassword(username,password)
         self._username = username
-        self._verifyPassword(password)
         self._password = password
 
-    def _verifyUsername(self,username):
+    def _verifyUsernameAndPassword(self,username,password):
         if(3 > len(username)):
             raise Exception('UsernameTooShort')
         if(31 < len(username)):
@@ -39,8 +38,6 @@ class User(object):
             raise Exception('UsernameBadCharacters')
         if(username[0].isdigit()):
             raise Exception('UsernameStartsWithANumber')
-
-    def _verifyPassword(self,password):
         if(8 > len(password)):
             raise Exception('PasswordTooShort')
         if(255 < len(password)):
@@ -57,5 +54,5 @@ class User(object):
         specialCharacters = set('!@#$%^&*()-_=+')
         if not any((c in specialCharacters) for c in password):
             raise Exception('PasswordNoSpecialChar')
-        if self._username in password:
+        if username in password:
             raise Exception('PasswordContainsUsername')
