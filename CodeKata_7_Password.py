@@ -3,9 +3,7 @@ from utils.password import UserManager
 def testNewUser():
     testUserManager = UserManager()
     testUserManager.recordNewUser('WyattD','Tortise85&70')
-
     userExists = testUserManager.getUser('WyattD')
-
     assert True == userExists
 
 def testUserNameTooShort():
@@ -13,21 +11,21 @@ def testUserNameTooShort():
     try:
         testUserManager.recordNewUser('Wya','Tortise85&70')
     except Exception as e:
-        assert e == 'UsernameTooShort'
+        assert str(e) == 'UsernameTooShort'
 
 def testUserNameTooLong():
     testUserManager = UserManager()
     try:
         testUserManager.recordNewUser('Wyattttttttttttttttttttttttttttttt','Tortise85&70')
     except Exception as e:
-        assert e == 'UsernameTooLong'
+        assert str(e) == 'UsernameTooLong'
 
 def testUserNameBadCharacter():
     testUserManager = UserManager()
     try:
         testUserManager.recordNewUser('Wyatt%','Tortise85&70')
     except Exception as e:
-        assert e == 'UsernameBadCharacters'
+        assert str(e) == 'UsernameBadCharacters'
 
 def testUserNameStartingWithNumber():
     testUserManager = UserManager()

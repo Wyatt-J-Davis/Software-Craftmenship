@@ -24,26 +24,32 @@ class User(object):
         return self._username
     
     def setUserNameAndPassword(self, username, password):
-        self._verifyUsernameAndPassword(username,password)
-        self._username = username
-        self._password = password
+        if(self._verifyUsernameAndPassword(username,password)):
+            self._username = username
+            self._password = password
 
     def _verifyUsernameAndPassword(self,username,password):
-        if(3 > len(username)):
+        minimumUsernameLength = 3
+        maximumUsernameLength = 31
+        minimumPasswordLength = 8
+        maximumPasswordLength = 255
+        allowedInUsername = string.digits + string.ascii_letters
+        specialCharacters = set('!@#$%^&*()-_=+')
+        allowedInPassword = string.digits + string.ascii_letters + str(specialCharacters) 
+        
+        if(minimumUsernameLength > len(username)):
             raise Exception('UsernameTooShort')
-        if(31 < len(username)):
+        if(maximumUsernameLength < len(username)):
             raise Exception('UsernameTooLong')
-        allowed = (string.digits + string.ascii_letters)
-        if(not (c in allowed for c in username)):
+        if(not (c in allowedInUsername for c in username)):
             raise Exception('UsernameBadCharacters')
         if(username[0].isdigit()):
             raise Exception('UsernameStartsWithANumber')
-        if(8 > len(password)):
+        if(minimumPasswordLength > len(password)):
             raise Exception('PasswordTooShort')
-        if(255 < len(password)):
+        if(maximumPasswordLength < len(password)):
             raise Exception('PasswordTooLong')        
-        allowed = (string.digits + string.ascii_letters + '!' + '@' + '#' + '$' + '%' + '^' + '&' + '*' + '(' + ')' + '-' + '_' + '=' + '+')
-        if(not (c in allowed for c in password)):
+        if(not (c in allowedInPassword for c in password)):
             raise Exception('PasswordBadCharacters')
         if(password.isupper()):
             raise Exception('PasswordNoLowerAlpha')
@@ -51,8 +57,11 @@ class User(object):
             raise Exception('PasswordNoUpperAlpha')
         if not any(char.isdigit() for char in password):
             raise Exception('PasswordNoDigit')
-        specialCharacters = set('!@#$%^&*()-_=+')
         if not any((c in specialCharacters) for c in password):
             raise Exception('PasswordNoSpecialChar')
         if username in password:
             raise Exception('PasswordContainsUsername')
+
+        return True
+
+    
