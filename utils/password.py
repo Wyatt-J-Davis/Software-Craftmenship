@@ -1,4 +1,5 @@
 import string
+from utils.encryptor import Encryptor
 
 class UserManager(object):
     def __init__(self):
@@ -14,19 +15,35 @@ class UserManager(object):
             if username == user.getUsername():
                 return True
         return False
+    
+    def setPassword(self, username, password):
+        for user in self._users:
+            if username == user.getUsername():
+                user.setUserNameAndPassword(username, password)
+    
+    def login(self, username, password):
+        for user in self._users:
+            if username == user.getUsername():
+                return (password == user.getPassword())
+        return False
+            
 
 class User(object):
     def __init__(self):
         self._username = ""
         self._password = ""
+        self._encryptor = Encryptor()
     
     def getUsername(self):
-        return self._username
+        return self._encryptor.decrypt(self._username)
     
-    def setUserNameAndPassword(self, username, password):
+    def getPassword(self):
+        return self._encryptor.decrypt(self._password)
+    
+    def setUserNameAndPassword(self, username, password):    
         if(self._verifyUsernameAndPassword(username,password)):
-            self._username = username
-            self._password = password
+            self._username = self._encryptor.encrypt(username)
+            self._password = self._encryptor.encrypt(password)
 
     def _verifyUsernameAndPassword(self,username,password):
         minimumUsernameLength = 3
