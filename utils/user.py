@@ -23,7 +23,6 @@ class User(object):
         minimumUsernameLength = 3
         maximumUsernameLength = 31
         allowedInUsername = string.digits + string.ascii_letters
- 
         if(minimumUsernameLength > len(username)):
             raise Exception('UsernameTooShort')
         if(maximumUsernameLength < len(username)):
@@ -39,7 +38,6 @@ class User(object):
         maximumPasswordLength = 255
         specialCharacters = set('!@#$%^&*()-_=+')
         allowedInPassword = string.digits + string.ascii_letters + str(specialCharacters)
-        
         if(minimumPasswordLength > len(password)):
             raise Exception('PasswordTooShort')
         if(maximumPasswordLength < len(password)):
@@ -56,5 +54,4 @@ class User(object):
             raise Exception('PasswordNoSpecialChar')
         if self.getUsername() in password:
             raise Exception('PasswordContainsUsername')
-        
         return True
