@@ -3,10 +3,10 @@ def fizzbuzz_calculate(i):
     buzz = True if i%5 == 0 else False # Determine whether value should be replaced by "buzz"
    
     if(fizz and buzz): # If both fizz and buzz booleans are true print "fizzbuzz"
-        print("fizzbuzz")
+        return "fizzbuzz"
     elif(fizz): # If just fizz boolean is true then print "fizz"
-        print("fizz")
+        return "fizz"
     elif(buzz): # If just buzz boolean is true then print "buzz"
-        print("buzz")
+        return "buzz"
     else:
-       print(i) # Print the iterator value, i, if neither fizz nor buzz is true
+       return i # Print the iterator value, i, if neither fizz nor buzz is true
