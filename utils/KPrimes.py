@@ -2,14 +2,18 @@ import multiprocessing
 
 class KPrimeFactorFinder(object):
     def __init__(self):
-        self._primeFactorList = []
-        self._k = 0 
+        self._primeFactorList = [] 
+        self._k = 0
     
     def findKPrimes(self, k, start, end):
         self._k = k
-        data = range(start, end, 1)
-        with multiprocessing.Pool() as pool:
-            pool.map(self._primeFactors, data)
+        kPrimeRange = range(start, end, 1)
+        isKPrime = []
+        with multiprocessing.Pool(5) as pool:
+            isKPrime = list(pool.map(self._primeFactors, kPrimeRange))
+        for count, value in enumerate(isKPrime):
+            if(True == value):
+                self._primeFactorList.append(kPrimeRange[count])
         return self._primeFactorList
         
     
@@ -25,16 +29,6 @@ class KPrimeFactorFinder(object):
         if n > 1:
             factors.append(n)
         if(self._k == len(factors)):
-            self._primeFactorList.append(n)
-    
-
-    
-"""     def findKPrimes(self, k, start, end):
-        kPrimes = []
-        for i in range(start, end, 1):
-            primeFactors = self._prime_factors(i)
-            if(len(primeFactors) == k):
-                kPrimes.append(i)
-        return kPrimes """
-
-    
+            return True
+        else:
+            return False    
