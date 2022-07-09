@@ -6,6 +6,13 @@ def test_findKPrimes():
     print(primesList)
     assert primesList == [500, 520, 552, 567, 588, 592, 594]
 
+def test_findMoreKPrimes():
+    kPrimeFinder = KPrimes.KPrimeFactorFinder()
+    primesList = kPrimeFinder.findKPrimes(2, 14, 18)
+    print(primesList)
+    assert primesList == [14, 15]
+
 
 if __name__ == "__main__":
     test_findKPrimes()
+    test_findMoreKPrimes()
