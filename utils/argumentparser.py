@@ -1,4 +1,7 @@
-from tokenize import Double
+from utils.booleanmarshaler import BooleanArgumentMarshaler
+from utils.stringmarshaler import StringArgumentMarshaler
+from utils.integermarshaler import IntegerArgumentMarshaler
+from utils.doublemarshaler import DoubleArgumentMarshaler
 
 class ArgParser(object):
     def __init__(self, schema, args):
@@ -17,9 +20,9 @@ class ArgParser(object):
             self._parseSchemaElement(element)
     
     def _parseArgumentStrings(self):
-        marshalerList = list(self._marshalers)
-        for index, argument in enumerate(self._args):
-            self._marshalers[marshalerList[index]].set(argument)
+        for index,arg in enumerate(self._args):
+            if(arg[0] == '-'):
+                self._marshalers[arg[1:]].set(self._args[index + 1])
         
     def _parseSchemaElement(self, element):
         elementTail = element[1:]
@@ -33,72 +36,3 @@ class ArgParser(object):
             self._marshalers.update({element[0]: DoubleArgumentMarshaler()})
         else:
             raise Exception("Invalid schema element.")
-
-# Marshaler classes
-class ArgumentMarshaler:
-    def set(self, value):
-        pass
-    
-    def get(self):
-        pass
-
-
-class BooleanArgumentMarshaler(ArgumentMarshaler):
-    def __init__(self):
-        self._booleanArgument = False
-    
-    def set(self, value):
-        if("False" == value):
-            self._booleanArgument = False
-        elif("True" == value):
-            self._booleanArgument = True
-        else: 
-            raise Exception("Error: Argument as boolean value expected.")
-    
-    def get(self):
-        return self._booleanArgument 
-
-class StringArgumentMarshaler(ArgumentMarshaler):
-    def __init__(self):
-        self._stringArgument = ""
-    
-    def set(self, value):
-        if(None is not value):
-            self._stringArgument = value
-        else: 
-            raise Exception("Error: Argument as string value expected.")
-    
-    def get(self):
-        return self._stringArgument 
-
-class IntegerArgumentMarshaler(ArgumentMarshaler):
-    def __init__(self):
-        self._integerArgument = 0
-    
-    def set(self, value):
-        if(not("." in value)):
-            try:
-                self._integerArgument = int(value)
-            except ValueError:
-                raise Exception("Error: Argument as integer expected.")
-        else: 
-            raise Exception("Error: Argument as integer expected.")
-    
-    def get(self):
-        return self._integerArgument
-
-class DoubleArgumentMarshaler(ArgumentMarshaler):
-    def __init__(self):
-        self._doubleArgument = 0.0
-    
-    def set(self, value):
-        if("." in value):
-            try:
-                self._doubleArgument = Double(value)
-            except ValueError:
-                raise Exception("Error: Argument as double expected.")
-        else: 
-            raise Exception("Error: Argument as double expected.")
-    
-    def get(self):
-        return self._doubleArgument

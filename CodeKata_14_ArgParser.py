@@ -1,12 +1,38 @@
-import sys
 import utils.argumentparser
 
-args = sys.argv[1:]
+def test_defaultValue():
+    args = ['-d', 'Hello', '-p', '7']
+    ArgumentParser = utils.argumentparser.ArgParser(["l", "p#", "d*", "c##"], args)
 
-ArgumentParser = utils.argumentparser.ArgParser(["l", "p#", "d*"], args)
+    assert ArgumentParser.getArgument("l") == False
 
-print(ArgumentParser.getArgument("l"))
-print(ArgumentParser.getArgument("p"))
-print(ArgumentParser.getArgument("d"))
+def test_booleanValue():
+    args = ['-d', 'Hello', '-p', '7', '-l', 'True']
+    ArgumentParser = utils.argumentparser.ArgParser(["l", "p#", "d*", "c##"], args)
+
+    assert ArgumentParser.getArgument("l") == True
+
+def test_integerValue():
+    args = ['-d', 'Hello', '-p', '7', '-l', 'True']
+    ArgumentParser = utils.argumentparser.ArgParser(["l", "p#", "d*", "c##"], args)
+
+    assert ArgumentParser.getArgument("p") == 7
+
+def test_stringValue():
+    args = ['-d', 'Hello', '-p', '7', '-l', 'True']
+    ArgumentParser = utils.argumentparser.ArgParser(["l", "p#", "d*", "c##"], args)
+
+    assert ArgumentParser.getArgument("d") == 'Hello'
+
+def test_doubleValue():
+    args = ['-d', 'Hello', '-p', '7', '-l', 'True', '-c', "3.14"]
+    ArgumentParser = utils.argumentparser.ArgParser(["l", "p#", "d*", "c##"], args)
+
+    assert ArgumentParser.getArgument("c") == 3.14
 
 
+test_defaultValue()
+test_booleanValue()
+test_integerValue()
+test_stringValue()
+test_doubleValue()
