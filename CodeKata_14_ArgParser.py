@@ -30,9 +30,24 @@ def test_doubleValue():
 
     assert ArgumentParser.getArgument("c") == 3.14
 
+def test_Cardinality():
+    args = ['-d', 'Hello', '-p', '7', '-l', 'True', '-c', "3.14"]
+    ArgumentParser = utils.argumentparser.ArgParser(["l", "p#", "d*", "c##"], args)
+
+    assert ArgumentParser.cardinality() == 4
+
+def test_usage():
+    args = ['-d', 'Hello', '-p', '7', '-l', 'True', '-c', "3.14"]
+    ArgumentParser = utils.argumentparser.ArgParser(["l", "p#", "d*", "c##"], args)
+
+    assert ArgumentParser.usage() == "-['l', 'p#', 'd*', 'c##']-"
+    
+
 
 test_defaultValue()
 test_booleanValue()
 test_integerValue()
 test_stringValue()
 test_doubleValue()
+test_Cardinality()
+test_usage()
