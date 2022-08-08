@@ -42,6 +42,17 @@ def test_usage():
 
     assert ArgumentParser.usage() == "-['l', 'p#', 'd*', 'c##']-"
     
+def test_hasTrue():
+    args = ['-d', 'Hello', '-p', '7', '-l', 'True', '-c', "3.14"]
+    ArgumentParser = utils.argumentparser.ArgParser(["l", "p#", "d*", "c##"], args)
+
+    assert ArgumentParser.has('l') == True
+
+def test_hasFalse():
+    args = ['-d', 'Hello', '-p', '7', '-c', "3.14"]
+    ArgumentParser = utils.argumentparser.ArgParser(["l", "p#", "d*", "c##"], args)
+
+    assert ArgumentParser.has('l') == False
 
 
 test_defaultValue()
@@ -51,3 +62,5 @@ test_stringValue()
 test_doubleValue()
 test_Cardinality()
 test_usage()
+test_hasTrue()
+test_hasFalse()

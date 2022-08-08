@@ -22,6 +22,12 @@ class ArgParser(object):
     def cardinality(self):
         return len(self._passedArguemntVariables)
     
+    def has(self, arg):
+        if arg in self._passedArguemntVariables:
+            return True
+        else:
+            return False
+    
     def getArgument(self, argument):
         return self._marshalers[argument].get()
 
